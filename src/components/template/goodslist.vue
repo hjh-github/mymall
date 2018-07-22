@@ -1,4 +1,4 @@
-<!-- 商品列表 -->
+<!-- 商品列表1 -->
 <template>
     <div>
         <van-row class="list goodslist" v-for="(goods,index) in goodslist" :key="index">
