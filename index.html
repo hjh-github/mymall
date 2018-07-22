@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>demo01</title>
+</head>
+
+<body>
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+  <script>
+    //rem计算 屏幕设配
+    const baseView = 320 / 16;
+    let baseWidth = document.documentElement.clientWidth || document.body.clientWidth;
+    let hmltDom = document.getElementsByTagName('html')[0];
+    hmltDom.style.fontSize = baseWidth / baseView + 'px';
+  </script>
+</body>
+
+</html>
