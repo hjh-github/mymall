@@ -53,14 +53,13 @@ export default {
     };
   },
   created() {
-    let that = this;
     this.$axios
-      .get("/news/index") //直接页面创建的时候请求接口
+      .get(this.$api.index) //直接页面创建的时候请求接口
       .then(res => {
         let data = res.data;
-        that.loops = data.loops;
-        that.cates = data.cate;
-        that.goodslist = data.goodslist;
+        this.loops = data.loops;
+        this.cates = data.cate;
+        this.goodslist = data.goodslist;
         console.table(data);
       });
   },
@@ -128,6 +127,7 @@ export default {
 .swipe {
   width: 100%;
   max-height: 41.666vw;
+  min-height: 30vw;
   overflow: hidden;
   z-index: 8;
 }

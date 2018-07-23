@@ -1,35 +1,78 @@
 <template>
     <div>
-            <h1>order</h1>
+            <h1 class="order-title">订单中心</h1>
+            <van-tabs v-model="active" swipeable>
+              <van-tab v-for="(item,index) in tabConfig" :key="index" :title="item.name">
+                <div class="orderlist-box">
+                    <orderlist :orders="item.list" :inx="index"></orderlist> 
+                </div>
+              </van-tab>
+            </van-tabs>
     </div>
 </template>
 
 <script>
+import orderlist from "../../template/orderlist";
 export default {
   name: "order",
+  components: {
+    orderlist
+  },
+  data() {
+    return {
+      tabConfig: [
+        { name: "全部", list: [] },
+        { name: "待付款", list: [] },
+        { name: "已取消", list: [] }
+      ],
+      orders: [],
+      active: 0
+    };
+  },
   mounted() {},
   beforeRouteEnter(to, from, next) {
     //  使用路由守卫 刷新数据
-    next(vm=>{
-        vm.getData()
-    })
+    next(vm => {
+      vm.getData();
+    });
   },
   methods: {
     getData() {
-      let that = this;
       this.$axios
-        .get("/news/index") //直接页面创建的时候请求接口
+        .get(this.$api.order) //直接页面创建的时候请求接口
         .then(res => {
-          let data = res.data;
-          that.loops = data.loops;
-          that.cates = data.cate;
-          that.goodslist = data.goodslist;
-          console.table(data);
+          this.orders = res.data.orderlist;
+          this.orderMast();
         });
+    },
+    orderMast() {
+      // 分配订单状态
+      this.tabConfig.forEach((item, index) => {
+        this.tabConfig[index].list = this.orderfy(index);
+      });
+    },
+    orderfy(inx) {
+      let orderlist = [];
+      // 当inx==0，即全部订单时
+      if (!inx) return (orderlist = this.orders);
+      // 当inx !=0，即订单需要分配
+      this.orders.forEach(order => {
+        if (order.state === inx - 1) orderlist.push(order);
+      });
+      return orderlist;
     }
   }
 };
 </script>
 
-<style scoped>
+<style scoped lang="less">
+.order-title {
+  font-size: 16px;
+  height: 44px;
+  line-height: 44px;
+}
+.orderlist-box{
+  height: calc(92vh - 88px);
+  overflow: auto;
+}
 </style>
