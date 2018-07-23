@@ -37,6 +37,7 @@
 <script>
 import cate from "../../template/saleCate";
 import goodslist from "../../template/goodslist";
+import { getIndex } from "@/assets/api/index";
 export default {
   props: ["scroll"],
   components: {
@@ -53,14 +54,14 @@ export default {
     };
   },
   created() {
-    this.$axios
-      .get(this.$api.index) //直接页面创建的时候请求接口
+    getIndex()
       .then(res => {
-        let data = res.data;
-        this.loops = data.loops;
-        this.cates = data.cate;
-        this.goodslist = data.goodslist;
-        console.table(data);
+        this.loops = res.loops;
+        this.cates = res.cate;
+        this.goodslist = res.goodslist;
+      })
+      .catch(err => {
+        console.log(err);
       });
   },
   mounted() {},
@@ -70,7 +71,7 @@ export default {
       n < 101 ? (opacity = n / 100) : (opacity = 1);
       // 根据scrollTop修改背景透明度
       this.searchBg = `rgba(118,150,219, ${opacity})`;
-    },
+    }
   }
 };
 </script>

@@ -13,6 +13,7 @@
 
 <script>
 import orderlist from "../../template/orderlist";
+import { getOrder } from "@/assets/api/index";
 export default {
   name: "order",
   components: {
@@ -38,11 +39,11 @@ export default {
   },
   methods: {
     getData() {
-      this.$axios
-        .get(this.$api.order) //直接页面创建的时候请求接口
-        .then(res => {
-          this.orders = res.data.orderlist;
+      getOrder().then(res => {
+          this.orders = res.orderlist;
           this.orderMast();
+        }).catch(err=>{
+          console.log(err)
         });
     },
     orderMast() {

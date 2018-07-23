@@ -35,6 +35,6 @@ const orderData = {
     }]
 } 
 // Mock.mock( url, post/get , 返回的数据)；
-Mock.mock('/news/index', 'get', indexData);
+Mock.mock('/index', 'get', indexData);
 // 订单接口
 Mock.mock('/order','get',orderData);
